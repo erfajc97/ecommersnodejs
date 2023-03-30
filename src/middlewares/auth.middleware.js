@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-//revisar el log token
 const authenticate = (req, res, next) => {
   const token = req.headers["access-token"];
   console.log(token);

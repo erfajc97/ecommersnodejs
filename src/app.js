@@ -16,7 +16,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-const PORT = 8005;
+const PORT = 8000;
 
 db.authenticate()
 .then(()=>{
@@ -24,7 +24,7 @@ db.authenticate()
 })
 .catch((error)=>console.log(error))
 
-db.sync({ force: false }) // alterar los atributos
+db.sync({ force: true }) // alterar los atributos
   .then(() => console.log("Base de datos sync"))
   .catch((error) => console.log(error));
 

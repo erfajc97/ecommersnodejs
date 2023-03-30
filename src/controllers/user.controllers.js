@@ -20,12 +20,13 @@ const createUser = async (req, res, next) => {
         to: result.email,
         subject: "Verifica tu correo electronico",
         html: `
-          <p>Hola ${result.username} Bienvenido al foro</p>
+          <p>Hola ${result.username} Bienvenido a tu eCommerce favorito</p>
           <p> Es necesario que verifiques tu correo </p>
           <a href="http://localhost:8005/verify?token=${token}" target="_blank"> validar correo </a>
         `,
       });
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
