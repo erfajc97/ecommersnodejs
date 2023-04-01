@@ -23,7 +23,8 @@ const Products = db.define(
         },
         price:{
             type:DataTypes.FLOAT,
-            allowNull:false
+            allowNull:false,
+            defaultValue: "0,0"
         },
         avaliableQty:{
             type: DataTypes.INTEGER,
