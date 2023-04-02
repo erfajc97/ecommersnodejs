@@ -36,6 +36,12 @@ const Users = db.define(
         type: DataTypes.STRING(200),
         allowNull:false
     },
+    rol: {
+      type: DataTypes.ENUM,
+      values:["Client", "Seller", "Admin"],
+      defaultValue: "Client"
+
+    }
 
  },
  {

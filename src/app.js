@@ -5,8 +5,10 @@ const db = require("./utils/database");
 const errorHandlerRouter = require("./routes/errorHandler.routes");
 const initModels = require("./models/initModels");
 const userRoutes = require("./routes/user.routes");
-const productRoutes = require("./routes/product.routes")
+const productRoutes = require("./routes/product.routes");
 const authRoutes = require("./routes/auth.routes");
+const productInCarRoutes = require("./routes/PproductInCar.routes");
+const orderRoutes = require("./routes/orden.routes");
 
 
 
@@ -27,15 +29,16 @@ db.authenticate()
 })
 .catch((error)=>console.log(error))
 
-db.sync({ force: true }) // alterar los atributos
+db.sync({ force: false }) // alterar los atributos
   .then(() => console.log("Base de datos sync"))
   .catch((error) => console.log(error));
 
   app.use(userRoutes);
-  app.use(authRoutes);
   app.use(productRoutes);
-
-
+  app.use(authRoutes);
+  app.use(productInCarRoutes);
+  app.use(orderRoutes); 
+  
   app.get("/", (req, res, next) => {
     res.send("welcome to my API");
   });

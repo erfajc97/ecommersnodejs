@@ -30,9 +30,9 @@ const userLogin = async (req, res, next) => {
         errorName: "Email verification",
       });
     }
-    const { id, name, lastname, username } = user;
+    const { id, username } = user;
     // TODO genera un token y enviarlo al usuario
-    const token = AuthServices.genToken({ id, username, email, username });
+    const token = AuthServices.genToken({ id,  email, username });
     res.json({
       id,
       username,
@@ -47,6 +47,7 @@ const userLogin = async (req, res, next) => {
 const verifyEmail = async (req, res, next) => {
   try {
     const { token } = req.body;
+    req.token = token;
     console.log(token);
     // TODO verificar toquen
     const userData = await jwt.verify(token, "1289", {

@@ -9,6 +9,16 @@ class ProductServices {
             throw error
         }
     }
+    static async update( id, data){
+        try {
+            const productUpdate = await Products.update(data, {
+                where: { id },
+            });
+            return productUpdate;
+        } catch (error) {
+            throw error;
+        }
+    }
 
 }
 
