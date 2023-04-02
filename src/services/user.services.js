@@ -1,3 +1,4 @@
+const Orders = require("../models/order.models");
 const Users = require("../models/users.models");
 
 class UserServices {
@@ -33,6 +34,20 @@ class UserServices {
       throw error;
     }
   }
+
+  static async getAllUserOrder(id){
+    try {
+        const order = await Users.findByPk(id, {attributes:["id", "username", "email"],
+            include:{
+                model:Orders,
+                attributes: ["id", "totalPrice", "status"]
+            }
+        }) 
+        return order
+    } catch (error) {
+        throw error
+    }
+}
 
   
 

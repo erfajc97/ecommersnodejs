@@ -53,8 +53,20 @@ const createUser = async (req, res, next) => {
       next(error);
     }
   };
+
+  const getAllUsersOrder = async (req, res, next) =>{
+    try {
+        const {id}= req.params;
+        const orderUser = await UserServices.getAllUserOrder(id)
+        res.json(orderUser)
+    } catch (error) {
+        next(error)
+    }
+}
+
   
 
   module.exports = {
-    createUser, updateUser
+    createUser, updateUser,
+    getAllUsersOrder
   }

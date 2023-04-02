@@ -2,11 +2,16 @@ const { json } = require("sequelize");
 const  OrdenServices  = require("../services/orden.services");
 const ProductsInCarServices = require("../services/productInCar.services");
 const ProductInOrders = require("../models/productInOrder.models");
+const jwt = require("jsonwebtoken");
+const OrderServices = require("../services/orden.services");
+
 
 const createOrden = async (req, res, next) =>{
     try {
       
-      const token = 1; // preguntar como obtener el token 
+      const token = 1; 
+    //   const token = req.headers["access-token"]; // como decodificar el token
+      console.log(token);
       const car =  await ProductsInCarServices.getAll(token)
       
       const {totalPrice} = car.dataValues
@@ -42,7 +47,17 @@ res.json({
         next(error)
     }
 }
+const getAllOrdersUsers = async (req, res, next) =>{
+    try {
+        const {id}= req.params;
+        const orderUser = await OrderServices.getAllOrder(id)
+        res.json(orderUser)
+    } catch (error) {
+        next(error)
+    }
+}
 
 module.exports = {
     createOrden,
+    getAllOrdersUsers
 }
