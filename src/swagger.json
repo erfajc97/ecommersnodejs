@@ -265,7 +265,7 @@
     "/api/v1/orden":{
       "post":{
         "tags": ["Orders"],
-        "description": "Este endpoint de tipo POST permite agregar uanorden al sistema.",
+        "description": "Este endpoint de tipo POST permite agregar una orden al sistema.",
         "summary": "Adiciona ordenes a la base de datos",
         "requestBody":{
           "description": "se debe enviar el token como body ",
