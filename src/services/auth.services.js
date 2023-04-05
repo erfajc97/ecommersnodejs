@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 
 class AuthServices {
   static genToken(payload) {
     try {
-      const token = jwt.sign(payload, "1289", {
+      const token = jwt.sign(payload, process.env.JWT_SECRET, {
         algorithm: "HS512",
         expiresIn: "1d",
       });

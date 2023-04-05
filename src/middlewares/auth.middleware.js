@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+require('dotenv').config();
 const authenticate = (req, res, next) => {
 const token = req.headers["access-token"];
 
@@ -10,7 +11,7 @@ const token = req.headers["access-token"];
     });
   }
   try {
-    const decoded = jwt.verify(token, "1289", { algorithms: "HS512" });
+    const decoded = jwt.verify(token, process.env.JWT_SECRET, { algorithms: "HS512" });
     // * enviamos la información al siguiente middleware
     req.user = decoded;
     next();

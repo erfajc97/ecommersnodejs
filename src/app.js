@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+require('dotenv').config();
 const swaggerUi = require("swagger-ui-express");
 const swaggerDoc = require("./swagger.json")
 const db = require("./utils/database");
@@ -23,7 +24,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 db.authenticate()
 .then(()=>{
