@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDoc = require("./swagger.json")
 const db = require("./utils/database");
 const errorHandlerRouter = require("./routes/errorHandler.routes");
 const initModels = require("./models/initModels");
@@ -29,11 +31,12 @@ db.authenticate()
 })
 .catch((error)=>console.log(error))
 
-db.sync({ force: false }) // alterar los atributos
+db.sync({ force: false  }) // alterar los atributos
   .then(() => console.log("Base de datos sync"))
   .catch((error) => console.log(error));
 
-  app.use(userRoutes);
+  app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+   app.use(userRoutes);
   app.use(productRoutes);
   app.use(authRoutes);
   app.use(productInCarRoutes);

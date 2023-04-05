@@ -1,0 +1,447 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "eCommerce API",
+    "description": "Esta API es un conjunto de endpoints que permiten a los usuarios realizar operaciones como crear una cuenta, iniciar sesión, agregar productos al carrito de compras, realizar compras y ver su historial de pedidos. Está diseñada para ser eficiente y escalable, utilizando tecnologías modernas como Express.js para manejar las solicitudes HTTP y PostgreSQL para almacenar los datos de los productos y los pedidos. Además, utiliza autenticación y autorización para garantizar la seguridad de los datos de los usuarios y brindar una experiencia de compra sin problemas.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/users": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Este endpoint permite crear nuevos usuarios en un eCommerce y asignarles un rol específico según las necesidades del negocio. Los roles disponibles son 'admin' para los usuarios con acceso completo a todas las funcionalidades del sistema, 'comprador' para los usuarios que pueden comprar productos y realizar pedidos, y 'cliente' para los usuarios que solo pueden ver los productos y sus detalles,",
+      "summary": " Este endpoint permite crear un nuevo usuario para la aplicación de eCommerce API",
+      
+      "requestBody": {
+        "description": "los campos para crear un nuevo usuarios son : username, email, password, avatar, rol_usuario ",
+        "required": true,
+        "content": {
+          "application/json":{
+           "schema": {"$ref" : "#components/schemas/userCreated" }
+          }
+        }
+      },
+      "responses":{
+        "201":{
+         "description": "created"
+
+        },
+        "409":{
+          "description": "conflict",
+          "content":{
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                  "name": {
+                    "type": "string",
+                    "example": "validation error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "database conection error"
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      }
+      }
+    
+    },
+    "/api/v1/users/{id}" :{
+      "get":{
+        "tags": ["Users"],
+        "summary": "Consulta las ordenes del usuario",
+        "description": "Este endpoint de tipo GET devuelve la información de un usuario específico y sus órdenes de compra asociadas, identificándolo a través de su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id del usuario a consultar"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "El user se consulto satisfactoriamente"
+          },
+          "404":{
+            "description": "No Found: el usuario no existe, no se paso el id, o hay un erro en la bd "
+          }
+        }
+
+      }
+    },
+    "/api/v1/users/Update/{id}":{
+      "put":{
+        "tags": ["Users"],
+        "summary": "Actualiza el username y el avatar del usuario",
+        "description": "Este endpoint de tipo PUT permite actualizar el nombre de usuario y la imagen de avatar de un usuario existente en la base de datos.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id del usuario que se desea actualizar"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "El user se actualizo satisfactoriamente"
+          },
+          "404":{
+            "description": "No Found: el usuario no existe, no se paso el id, o hay un error en la bd "
+          }
+        },
+        "requestBody":{
+          "description": "los campos para actualizar un  usuarios son : username y avatar",
+          "required": true,
+          "content": {
+            "application/json":{
+             "schema": {"$ref" : "#components/schemas/userUpdate" }
+            }
+          }
+
+        }
+
+
+      }
+    },
+    "/api/v1/products":{
+      "post":{
+        "tags": ["Products"],
+        "description": "Este endpoint de tipo POST permite agregar un nuevo producto a la base de datos del sistema.",
+        "summary": "Adiciona productos a la base de datos",
+        "requestBody":{
+          "description": "los campos para crear un nuevo producto son : name, description, price, avaliableQty, status, userId, productImage ",
+        "required": true,
+        "content": {
+          "application/json":{
+           "schema": {"$ref" : "#components/schemas/addProducts" }
+          }
+        }
+      },
+      "responses":{
+        "201":{
+         "description": "created"
+
+        },
+        "409":{
+          "description": "conflict",
+          "content":{
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                  "name": {
+                    "type": "string",
+                    "example": "validation error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "database conection error"
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      
+
+        }
+      }
+    },
+    "/api/v1/products/{id}":{
+      "put":{
+        "tags": ["Products"],
+        "summary": "Actualiza la descripcion del producto",
+        "description": "Este endpoint de tipo PUT permite actualizar la descripcion de un producto existente en la base de datos.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id del producto que se desea actualizar"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "El producto se actualizo satisfactoriamente"
+          },
+          "404":{
+            "description": "No Found: el producto no existe, no se paso el id, o hay un error en la bd "
+          }
+        },
+        "requestBody":{
+          "description": "El campo requerido para actualizar el producto es: 'description'",
+          "required": true,
+          "content": {
+            "application/json":{
+             "schema": {"$ref" : "#components/schemas/productUpdate" }
+            }
+          }
+
+        }
+
+
+      }
+      
+
+    },
+    "/api/v1/productInCart":{
+      "post":{
+        "tags": ["ProductsInCar"],
+        "description": "Este endpoint de tipo POST permite agregar un nuevo producto al carrito de comprasde la base de datos del sistema.",
+        "summary": "Adiciona productos al carrito de compras",
+        "requestBody":{
+          "description": "los campos para crear un nuevo producto en el carrito son : carId, productId, quantity, price, status ",
+        "required": true,
+        "content": {
+          "application/json":{
+           "schema": {"$ref" : "#components/schemas/addProductsInCar" }
+          }
+        }
+      },
+      "responses":{
+        "201":{
+         "description": "created"
+
+        },
+        "409":{
+          "description": "conflict",
+          "content":{
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                  "name": {
+                    "type": "string",
+                    "example": "validation error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "database conection error"
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      
+
+        }
+      }
+    },
+    "/api/v1/productInCart/{id}":{
+      "get":{
+        "tags": ["ProductsInCar"],
+        "summary": "Consulta los productos que un usuario tiene en el carrito",
+        "description": "Este endpoint de tipo GET devuelve la información de un usuario específico y los productos que tiene agregados al carrito de compras, identificándolo a través de su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "El id del usuario a consultar"
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "El user se consulto satisfactoriamente"
+          },
+          "404":{
+            "description": "No Found: el usuario no existe, no se paso el id, o hay un erro en la bd "
+          }
+        }
+
+      }
+
+    },
+    "/api/v1/orden":{
+      "post":{
+        "tags": ["Orders"],
+        "description": "Este endpoint de tipo POST permite agregar uanorden al sistema.",
+        "summary": "Adiciona ordenes a la base de datos",
+        "requestBody":{
+          "description": "se debe enviar el token como body ",
+        "required": true,
+        "content": {
+          "application/json":{
+           "schema": {"$ref" : "#components/schemas/addOrder" }
+          }
+        }
+      },
+      "responses":{
+        "201":{
+         "description": "created"
+
+        },
+        "409":{
+          "description": "conflict",
+          "content":{
+            "application/json": {
+              "schema":{
+                "type": "object",
+                "properties":{
+                  "name": {
+                    "type": "string",
+                    "example": "validation error"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "database conection error"
+                  }
+                }
+
+              }
+            }
+          }
+        }
+      
+
+        }
+      }
+   
+    }
+
+  },
+  "components": {
+    "schemas" : {
+      "userCreated" : {
+        "type": "object",
+        "properties":{
+          "username": {
+            "type": "string",
+            "example": "jrmoncada10"
+          },
+          "email": {
+            "type": "string",
+            "example": "jrmoncada10@gmail.com"
+
+          },
+          "password":{
+            "type": "string",
+            "example": "12345678"
+          },
+          "avatar" : {
+            "type": "string",
+            "example": "url/image"
+          },
+          "rol":{
+            "type": "string",
+            "example": "Client, Seller, Admin"
+          }
+        } 
+
+      },
+      "userUpdate":{
+        "type": "object",
+        "properties" :{
+          "username": {
+            "type": "string",
+            "example": "jrmoncada10"
+          },
+          "avatar" : {
+            "type": "string",
+            "example": "url/image"
+          }
+
+        }
+
+      },
+      "addProducts":{
+        "type": "object",
+        "properties":{
+         "name": {
+          "type": "string",
+          "example": "ipnone xs"
+         },
+         "description": {
+          "type": "string",
+          "example":"Smartphone de aple, modelo 2015, 3gb de ram, pantalla ips, etc..."
+         },
+         "price":{
+          "type":"number",
+          "example": "1000"
+
+         },
+         "avaliableQty":{
+          "type": "integer",
+          "axample":"10"
+         },
+         "status": {
+          "type": "boolean",
+          "example": true
+         },
+         "userId":{
+          "type": "integer",
+          "example": "1"
+         },
+         "productImage":{
+          "type": "string",
+          "example": "https:drive.image.product.iphon"
+         }
+
+
+      }
+
+      
+    },
+    "productUpdate":{
+      "type": "object",
+      "properties" :{
+        "description": {
+          "type": "string",
+          "example": "el iphone xs cuenta con una camara mejorada, se actualizo su so para prestar mejores funciones, y ahora tiene descuento del 20%"
+        }
+
+    }
+  },
+  "addProductsInCar":{
+    "type": "object",
+        "properties":{
+         "carId": {
+          "type": "integer",
+          "example": "1"
+         },
+         "productId": {
+          "type": "integer",
+          "example":"1"
+         },
+         "quantity":{
+          "type":"integer",
+          "example": "10"
+
+         },
+         "price":{
+          "type": "number",
+          "axample":"1000"
+         },
+         "status": {
+          "type": "boolean",
+          "example": true
+         }
+
+      }
+
+},
+"addOrder":{
+  "type": "object",
+        "properties":{
+         "token": {
+          "type": "integer",
+          "example": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9"
+         }
+}
+
+
+}
+
+}
+}
+}

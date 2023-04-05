@@ -33,7 +33,7 @@ const Users = db.define(
         allowNull:false
     },
     avatar:{
-        type: DataTypes.STRING(200),
+        type: DataTypes.STRING,
         allowNull:false
     },
     rol: {

@@ -7,9 +7,8 @@ const Cars = require("../models/car.models")
 const createUser = async (req, res, next) => {
     try {
       const newUser = req.body;
-  
       const result = await UserServices.create(newUser);
-      res.status(201).json(result);
+      res.status(201).send()
      
       const { id, email, username } = result;
       const token = await AuthServices.genToken({

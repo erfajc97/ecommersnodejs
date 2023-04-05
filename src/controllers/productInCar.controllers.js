@@ -1,8 +1,18 @@
+const Cars = require("../models/car.models");
 const  ProductsInCarServices  = require("../services/productInCar.services");
 
 const createProductInCar = async (req, res, next) =>{
     try {
       const newProduct = req.body;
+      const { price, carId } = newProduct;
+      const updatePrice = await Cars.increment({
+        totalPrice: price,
+        
+      }, {
+        where: {
+            id: carId
+        }
+      })
       const product = await ProductsInCarServices.create(newProduct)
       res.status(201).json(product)
     } catch (error) {
