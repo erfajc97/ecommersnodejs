@@ -317,11 +317,11 @@
         "properties":{
           "username": {
             "type": "string",
-            "example": "jrmoncada10"
+            "example": "erfajc12"
           },
           "email": {
             "type": "string",
-            "example": "jrmoncada10@gmail.com"
+            "example": "erfajc97@gmail.com"
 
           },
           "password":{
@@ -344,7 +344,7 @@
         "properties" :{
           "username": {
             "type": "string",
-            "example": "jrmoncada10"
+            "example": "erfa12"
           },
           "avatar" : {
             "type": "string",

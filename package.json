@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Jose Vargas",
+  "author": "Erick",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",

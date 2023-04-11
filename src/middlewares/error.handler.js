@@ -17,7 +17,7 @@ const {
   
   // ! manejador de errores general
   // * error
-  // * {status: 409, message: "ñldkfjdlkfgjldfk", name: "ldkjflksdfjl"}
+  
   const errorHandler = (error, req, res, next) => {
     let { status } = error;
   

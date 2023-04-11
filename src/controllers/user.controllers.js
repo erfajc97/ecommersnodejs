@@ -19,7 +19,7 @@ const createUser = async (req, res, next) => {
     
       
       await transporter.sendMail({
-        from: "jotik1989@gmail.com",
+        from: "erfajc97@gmail.com",
         to: result.email,
         subject: "Verifica tu correo electronico",
         html: `
